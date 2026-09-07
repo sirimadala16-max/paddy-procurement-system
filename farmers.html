@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Farmer Management | Paddy Procurement System</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            background: #0b4f8a;
+            color: white;
+
+            padding: 18px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+
+        .navbar h2 {
+            font-size: 23px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+
+            margin-left: 25px;
+
+            font-weight: bold;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+
+            margin: 35px auto;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            color: #0b4f8a;
+            font-size: 32px;
+        }
+
+        .page-title p {
+            color: #6b7280;
+            margin-top: 7px;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-box {
+            background: white;
+
+            padding: 28px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+
+            margin-bottom: 30px;
+        }
+
+        .form-box h2 {
+            color: #0b4f8a;
+
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+        .form-row label {
+            font-weight: bold;
+        }
+
+        .form-row input {
+            flex: 1;
+
+            max-width: 500px;
+
+            padding: 13px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+        .form-row input:focus {
+            border-color: #0b4f8a;
+
+            box-shadow: 0 0 0 2px rgba(11,79,138,0.1);
+        }
+
+        .add-btn {
+            background: #0b4f8a;
+
+            color: white;
+
+            border: none;
+
+            padding: 13px 24px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+            font-weight: bold;
+        }
+
+        .add-btn:hover {
+            background: #083b68;
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-card {
+            background: white;
+
+            padding: 28px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+
+            overflow-x: auto;
+        }
+
+        .table-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 18px;
+        }
+
+        .table-header h2 {
+            color: #0b4f8a;
+        }
+
+        .farmer-count {
+            background: #e8f1fa;
+
+            color: #0b4f8a;
+
+            padding: 7px 14px;
+
+            border-radius: 20px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 500px;
+        }
+
+        th {
+            background: #0b4f8a;
+
+            color: white;
+
+            padding: 14px;
+
+            text-align: left;
+        }
+
+        td {
+            padding: 14px;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        /* ================= ACTION BUTTONS ================= */
+
+        .action-buttons {
+            display: flex;
+
+            gap: 8px;
+        }
+
+        .edit-btn {
+            background: #f59e0b;
+
+            color: white;
+
+            border: none;
+
+            padding: 8px 16px;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        .edit-btn:hover {
+            background: #d97706;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+
+            color: white;
+
+            border: none;
+
+            padding: 8px 16px;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        .delete-btn:hover {
+            background: #b02a37;
+        }
+
+        /* ================= EMPTY MESSAGE ================= */
+
+        .empty-message {
+            text-align: center;
+
+            color: #6b7280;
+
+            padding: 30px;
+
+            font-size: 15px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            text-align: center;
+
+            padding: 25px;
+
+            margin-top: 50px;
+
+            background: #0b4f8a;
+
+            color: white;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 15px 20px;
+
+                flex-direction: column;
+
+                gap: 12px;
+            }
+
+            .navbar h2 {
+                font-size: 19px;
+
+                text-align: center;
+            }
+
+            .navbar a {
+                margin-left: 8px;
+
+                font-size: 14px;
+            }
+
+            .container {
+                width: 95%;
+
+                margin-top: 25px;
+            }
+
+            .page-title h1 {
+                font-size: 26px;
+            }
+
+            .form-row {
+                flex-direction: column;
+
+                align-items: stretch;
+            }
+
+            .form-row input {
+                max-width: none;
+
+                width: 100%;
+            }
+
+            .add-btn {
+                width: 100%;
+            }
+
+            .table-header {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 10px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .edit-btn,
+            .delete-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVIGATION ================= -->
+
+<div class="navbar">
+
+    <h2>🌾 Paddy Procurement System</h2>
+
+    <div>
+
+        <a href="index.html">Dashboard</a>
+
+        <a href="farmers.html">Farmers</a>
+
+        <a href="procurement.html">Procurement</a>
+
+    </div>
+
+</div>
+
+
+<!-- ================= MAIN CONTENT ================= -->
+
+<div class="container">
+
+
+    <!-- PAGE TITLE -->
+
+    <div class="page-title">
+
+        <h1>Farmer Management</h1>
+
+        <p>
+            Register and manage farmers involved in paddy procurement.
+        </p>
+
+    </div>
+
+
+    <!-- ================= ADD FARMER ================= -->
+
+    <div class="form-box">
+
+        <h2 id="formTitle">Add New Farmer</h2>
+
+        <div class="form-row">
+
+            <label for="farmerName">
+                Farmer Name
+            </label>
+
+            <input
+                type="text"
+                id="farmerName"
+                placeholder="Enter farmer name"
+                maxlength="100"
+                autocomplete="off">
+
+            <button
+                class="add-btn"
+                id="submitBtn"
+                onclick="saveFarmer()">
+
+                + Add Farmer
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= REGISTERED FARMERS ================= -->
+
+    <div class="table-card">
+
+        <div class="table-header">
+
+            <h2>Registered Farmers</h2>
+
+            <span
+                class="farmer-count"
+                id="farmerCount">
+                0 Farmers
+            </span>
+
+        </div>
+
+
+        <table id="farmerTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>#</th>
+
+                    <th>Farmer Name</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="farmerTableBody">
+
+            </tbody>
+
+        </table>
+
+
+        <div
+            id="emptyMessage"
+            class="empty-message"
+            style="display:none;">
+
+            No farmers registered yet.
+
+            <br>
+
+            Add a farmer using the form above.
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    Paddy Procurement Management System © 2026
+
+</footer>
+
+
+<script>
+
+
+/* =========================================================
+   GLOBAL EDIT INDEX
+========================================================= */
+
+let editIndex = -1;
+
+
+/* =========================================================
+   GET FARMERS
+========================================================= */
+
+function getFarmers() {
+
+    let farmers =
+        JSON.parse(
+            localStorage.getItem("farmers")
+        ) || [];
+
+
+    return farmers
+        .map(farmer => String(farmer).trim())
+        .filter(farmer => farmer !== "");
+
+}
+
+
+/* =========================================================
+   LOAD FARMERS
+========================================================= */
+
+function loadFarmers() {
+
+    let farmers = getFarmers();
+
+
+    /* Remove duplicates */
+
+    let uniqueFarmers = [];
+
+    farmers.forEach(function(farmer) {
+
+        let exists = uniqueFarmers.some(function(existing) {
+
+            return existing.toLowerCase() === farmer.toLowerCase();
+
+        });
+
+
+        if (!exists) {
+
+            uniqueFarmers.push(farmer);
+
+        }
+
+    });
+
+
+    farmers = uniqueFarmers;
+
+
+    localStorage.setItem(
+        "farmers",
+        JSON.stringify(farmers)
+    );
+
+
+    let tableBody =
+        document.getElementById("farmerTableBody");
+
+    let emptyMessage =
+        document.getElementById("emptyMessage");
+
+    let farmerCount =
+        document.getElementById("farmerCount");
+
+
+    /* Clear old rows */
+
+    tableBody.innerHTML = "";
+
+
+    /* Update count */
+
+    farmerCount.textContent =
+        farmers.length +
+        (farmers.length === 1 ? " Farmer" : " Farmers");
+
+
+    /* Empty state */
+
+    if (farmers.length === 0) {
+
+        emptyMessage.style.display = "block";
+
+        return;
+
+    }
+
+
+    emptyMessage.style.display = "none";
+
+
+    /* Display farmers */
+
+    farmers.forEach(function(farmer, index) {
+
+        let row =
+            document.createElement("tr");
+
+
+        /* Number */
+
+        let numberCell =
+            document.createElement("td");
+
+        numberCell.textContent =
+            index + 1;
+
+
+        /* Farmer name */
+
+        let nameCell =
+            document.createElement("td");
+
+        nameCell.textContent =
+            farmer;
+
+
+        /* Action */
+
+        let actionCell =
+            document.createElement("td");
+
+
+        let actionButtons =
+            document.createElement("div");
+
+        actionButtons.className =
+            "action-buttons";
+
+
+        /* Edit button */
+
+        let editButton =
+            document.createElement("button");
+
+        editButton.className =
+            "edit-btn";
+
+        editButton.textContent =
+            "Edit";
+
+        editButton.onclick =
+            function() {
+
+                editFarmer(index);
+
+            };
+
+
+        /* Delete button */
+
+        let deleteButton =
+            document.createElement("button");
+
+        deleteButton.className =
+            "delete-btn";
+
+        deleteButton.textContent =
+            "Delete";
+
+        deleteButton.onclick =
+            function() {
+
+                deleteFarmer(index);
+
+            };
+
+
+        actionButtons.appendChild(editButton);
+
+        actionButtons.appendChild(deleteButton);
+
+        actionCell.appendChild(actionButtons);
+
+
+        row.appendChild(numberCell);
+
+        row.appendChild(nameCell);
+
+        row.appendChild(actionCell);
+
+
+        tableBody.appendChild(row);
+
+    });
+
+}
+
+
+/* =========================================================
+   SAVE / ADD FARMER
+========================================================= */
+
+function saveFarmer() {
+
+    let input =
+        document.getElementById("farmerName");
+
+
+    let name =
+        input.value.trim();
+
+
+    /* Validate empty */
+
+    if (name === "") {
+
+        alert(
+            "Please enter farmer name."
+        );
+
+        input.focus();
+
+        return;
+
+    }
+
+
+    /* Minimum length */
+
+    if (name.length < 2) {
+
+        alert(
+            "Farmer name must contain at least 2 characters."
+        );
+
+        input.focus();
+
+        return;
+
+    }
+
+
+    let farmers =
+        getFarmers();
+
+
+    /* =====================================================
+       EDIT MODE
+    ===================================================== */
+
+    if (editIndex !== -1) {
+
+        let duplicate =
+            farmers.some(function(farmer, index) {
+
+                return index !== editIndex &&
+                    farmer.toLowerCase() === name.toLowerCase();
+
+            });
+
+
+        if (duplicate) {
+
+            alert(
+                "Another farmer with this name already exists."
+            );
+
+            return;
+
+        }
+
+
+        farmers[editIndex] =
+            name;
+
+
+        localStorage.setItem(
+            "farmers",
+            JSON.stringify(farmers)
+        );
+
+
+        alert(
+            "Farmer updated successfully!"
+        );
+
+
+        cancelEdit();
+
+        loadFarmers();
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       ADD MODE
+    ===================================================== */
+
+    let duplicate =
+        farmers.some(function(farmer) {
+
+            return farmer.toLowerCase() ===
+                name.toLowerCase();
+
+        });
+
+
+    if (duplicate) {
+
+        alert(
+            "Farmer already exists."
+        );
+
+        input.focus();
+
+        return;
+
+    }
+
+
+    /* Add farmer */
+
+    farmers.push(name);
+
+
+    localStorage.setItem(
+        "farmers",
+        JSON.stringify(farmers)
+    );
+
+
+    input.value = "";
+
+
+    loadFarmers();
+
+
+    alert(
+        "Farmer added successfully!"
+    );
+
+
+    input.focus();
+
+}
+
+
+/* =========================================================
+   EDIT FARMER
+========================================================= */
+
+function editFarmer(index) {
+
+    let farmers =
+        getFarmers();
+
+
+    if (!farmers[index]) {
+
+        return;
+
+    }
+
+
+    editIndex =
+        index;
+
+
+    document
+        .getElementById("farmerName")
+        .value =
+        farmers[index];
+
+
+    document
+        .getElementById("formTitle")
+        .textContent =
+        "Edit Farmer";
+
+
+    document
+        .getElementById("submitBtn")
+        .textContent =
+        "Update Farmer";
+
+
+    document
+        .getElementById("submitBtn")
+        .style.background =
+        "#f59e0b";
+
+
+    document
+        .getElementById("farmerName")
+        .focus();
+
+}
+
+
+/* =========================================================
+   CANCEL EDIT
+========================================================= */
+
+function cancelEdit() {
+
+    editIndex = -1;
+
+
+    document
+        .getElementById("farmerName")
+        .value = "";
+
+
+    document
+        .getElementById("formTitle")
+        .textContent =
+        "Add New Farmer";
+
+
+    document
+        .getElementById("submitBtn")
+        .textContent =
+        "+ Add Farmer";
+
+
+    document
+        .getElementById("submitBtn")
+        .style.background =
+        "#0b4f8a";
+
+}
+
+
+/* =========================================================
+   DELETE FARMER
+========================================================= */
+
+function deleteFarmer(index) {
+
+    let farmers =
+        getFarmers();
+
+
+    if (!farmers[index]) {
+
+        return;
+
+    }
+
+
+    let farmerName =
+        farmers[index];
+
+
+    let confirmDelete =
+        confirm(
+            "Are you sure you want to delete " +
+            farmerName +
+            "?"
+        );
+
+
+    if (!confirmDelete) {
+
+        return;
+
+    }
+
+
+    farmers.splice(index, 1);
+
+
+    localStorage.setItem(
+        "farmers",
+        JSON.stringify(farmers)
+    );
+
+
+    /* If deleted farmer was being edited */
+
+    if (editIndex === index) {
+
+        cancelEdit();
+
+    }
+
+
+    loadFarmers();
+
+
+    alert(
+        "Farmer deleted successfully."
+    );
+
+}
+
+
+/* =========================================================
+   ENTER KEY SUPPORT
+========================================================= */
+
+document
+    .getElementById("farmerName")
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Enter") {
+
+                saveFarmer();
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   PAGE LOAD
+========================================================= */
+
+window.onload =
+    function() {
+
+        loadFarmers();
+
+    };
+
+
+</script>
+
+
+</body>
+
+</html>

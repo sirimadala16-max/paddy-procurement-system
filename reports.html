@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Paddy Procurement Reports</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #f4f7fb;
+    color: #1f2937;
+}
+
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+    background: #0b4f8a;
+    color: white;
+
+    padding: 18px 40px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.navbar h2 {
+    font-size: 23px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+
+    margin-left: 25px;
+
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+
+/* ================= MAIN ================= */
+
+.container {
+    width: 92%;
+    max-width: 1350px;
+
+    margin: 35px auto;
+}
+
+
+/* ================= TITLE ================= */
+
+.page-title {
+    margin-bottom: 25px;
+}
+
+.page-title h1 {
+    color: #0b4f8a;
+
+    font-size: 32px;
+
+    margin-bottom: 7px;
+}
+
+.page-title p {
+    color: #6b7280;
+}
+
+
+/* ================= SUMMARY ================= */
+
+.summary-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+
+    margin-bottom: 30px;
+}
+
+.summary-card {
+    background: white;
+
+    padding: 23px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.08);
+
+    border-left: 5px solid #0b4f8a;
+}
+
+.summary-card h3 {
+    color: #6b7280;
+
+    font-size: 14px;
+
+    margin-bottom: 12px;
+}
+
+.summary-card p {
+    color: #0b4f8a;
+
+    font-size: 26px;
+
+    font-weight: bold;
+}
+
+
+/* ================= SEARCH + PRINT ================= */
+
+.action-bar {
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.08);
+
+    margin-bottom: 30px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+.search-box {
+    padding: 12px 15px;
+
+    width: 320px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 7px;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+.search-box:focus {
+    border-color: #0b4f8a;
+}
+
+.print-btn {
+    background: #0b4f8a;
+
+    color: white;
+
+    border: none;
+
+    padding: 12px 22px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    font-size: 14px;
+}
+
+.print-btn:hover {
+    background: #083b68;
+}
+
+
+/* ================= REPORT CARD ================= */
+
+.report-card {
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.08);
+
+    margin-bottom: 30px;
+
+    overflow-x: auto;
+}
+
+.report-card h2 {
+    color: #0b4f8a;
+
+    margin-bottom: 20px;
+}
+
+
+/* ================= TABLE ================= */
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+th {
+    background: #0b4f8a;
+
+    color: white;
+
+    padding: 13px;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+td {
+    padding: 12px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    white-space: nowrap;
+}
+
+tr:hover {
+    background: #f8fafc;
+}
+
+
+/* ================= EMPTY ================= */
+
+.empty {
+    text-align: center;
+
+    color: #6b7280;
+
+    padding: 25px;
+}
+
+
+/* ================= FOOTER ================= */
+
+footer {
+    background: #0b4f8a;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 25px;
+
+    margin-top: 50px;
+}
+
+
+/* ================= PRINT ================= */
+
+.print-only-title {
+    display: none;
+}
+
+@media print {
+
+    body {
+        background: white;
+    }
+
+    .navbar,
+    .action-bar,
+    footer {
+        display: none;
+    }
+
+    .container {
+        width: 100%;
+
+        margin: 0;
+    }
+
+    .summary-card,
+    .report-card {
+        box-shadow: none;
+
+        border: 1px solid #ddd;
+    }
+
+    .print-only-title {
+        display: block;
+
+        text-align: center;
+
+        margin-bottom: 25px;
+    }
+
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1000px) {
+
+    .summary-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .navbar {
+        padding: 15px 20px;
+
+        flex-direction: column;
+
+        gap: 12px;
+    }
+
+    .navbar h2 {
+        font-size: 19px;
+
+        text-align: center;
+    }
+
+    .navbar a {
+        margin-left: 8px;
+
+        font-size: 14px;
+    }
+
+    .container {
+        width: 95%;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .action-bar {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .page-title h1 {
+        font-size: 26px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVIGATION ================= -->
+
+<div class="navbar">
+
+    <h2>
+        🌾 Paddy Procurement System
+    </h2>
+
+    <div>
+
+        <a href="index.html">
+            Dashboard
+        </a>
+
+        <a href="farmers.html">
+            Farmers
+        </a>
+
+        <a href="procurement.html">
+            Procurement
+        </a>
+
+        <a href="reports.html">
+            Reports
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+
+    <!-- TITLE -->
+
+    <div class="page-title">
+
+        <h1>
+            Procurement Reports
+        </h1>
+
+        <p>
+            View procurement summary and detailed transaction reports
+        </p>
+
+    </div>
+
+
+    <!-- PRINT TITLE -->
+
+    <div class="print-only-title">
+
+        <h1>
+            Paddy Procurement Management System
+        </h1>
+
+        <p>
+            Procurement Report
+        </p>
+
+    </div>
+
+
+    <!-- ================= SUMMARY ================= -->
+
+    <div class="summary-grid">
+
+
+        <div class="summary-card">
+
+            <h3>
+                Total Farmers
+            </h3>
+
+            <p id="totalFarmers">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>
+                Procurement Records
+            </h3>
+
+            <p id="totalRecords">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>
+                Total Gross Weight
+            </h3>
+
+            <p>
+
+                <span id="totalGrossWeight">
+                    0
+                </span>
+
+                kg
+
+            </p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>
+                Weighbridge Deduction
+            </h3>
+
+            <p>
+
+                <span id="totalWeighbridgeDeduction">
+                    0
+                </span>
+
+                kg
+
+            </p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>
+                Total Net Weight
+            </h3>
+
+            <p>
+
+                <span id="totalNetWeight">
+                    0
+                </span>
+
+                kg
+
+            </p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>
+                Total Final Bags
+            </h3>
+
+            <p id="totalFinalBags">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>
+                Total Amount
+            </h3>
+
+            <p>
+
+                ₹<span id="totalAmount">
+                    0
+                </span>
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================= SEARCH + PRINT ================= -->
+
+    <div class="action-bar">
+
+        <input
+            type="text"
+            id="searchBox"
+            class="search-box"
+            placeholder="Search farmer..."
+            oninput="searchReport()"
+        >
+
+
+        <button
+            class="print-btn"
+            onclick="window.print()"
+        >
+
+            🖨 Print Report
+
+        </button>
+
+    </div>
+
+
+    <!-- ================= FARMER SUMMARY ================= -->
+
+    <div class="report-card">
+
+        <h2>
+            Farmer-wise Procurement Summary
+        </h2>
+
+
+        <table id="farmerSummaryTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>Farmer</th>
+
+                    <th>Records</th>
+
+                    <th>Gross Weight</th>
+
+                    <th>Net Weight</th>
+
+                    <th>Final Bags</th>
+
+                    <th>Total Amount</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="farmerSummaryBody">
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ================= DETAILED REPORT ================= -->
+
+    <div class="report-card">
+
+        <h2>
+            Detailed Procurement Report
+        </h2>
+
+
+        <table id="reportTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>Farmer</th>
+
+                    <th>Gross Weight</th>
+
+                    <th>Weighbridge Deduction</th>
+
+                    <th>Bag Deduction</th>
+
+                    <th>Net Weight</th>
+
+                    <th>Final Bags</th>
+
+                    <th>Rate / Bag</th>
+
+                    <th>Total Amount</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="reportBody">
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+</div>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    Paddy Procurement Management System © 2026
+
+</footer>
+
+
+<script>
+
+
+/* =========================================================
+   GET PROCUREMENT DATA
+========================================================= */
+
+function getProcurementData() {
+
+    return JSON.parse(
+        localStorage.getItem("procurement")
+    ) || [];
+
+}
+
+
+/* =========================================================
+   BUSINESS CALCULATION
+=========================================================
+
+Gross Weight
+        ↓
+5 kg deduction per tonne
+        ↓
+Bag Deduction
+        ↓
+Net Weight
+        ↓
+Net Weight / 75
+        ↓
+Final Bags
+        ↓
+Final Bags × Paddy Rate
+        ↓
+Total Amount
+
+RULES:
+
+5 kg deduction per 1000 kg
+75 kg = 1 Final Bag
+
+========================================================= */
+
+function calculateRecord(d) {
+
+
+    /* Gross Weight */
+
+    let weight =
+        Number(
+            d.weight ??
+            d.grossWeight
+        ) || 0;
+
+
+    /* Bag Deduction */
+
+    let bags =
+        Number(
+            d.bags ??
+            d.numberOfBags
+        ) || 0;
+
+
+    /* Paddy Rate */
+
+    let rate =
+        Number(
+            d.rate ??
+            d.paddyRate ??
+            d.ratePerBag ??
+            d.paddy_rate ??
+            d.ratePer75Kg
+        ) || 0;
+
+
+    /* Weighbridge Deduction */
+
+    let weighbridgeDeduction =
+        (weight / 1000) * 5;
+
+
+    /* Net Weight */
+
+    let netWeight =
+        weight -
+        weighbridgeDeduction -
+        bags;
+
+
+    /* Final Bags */
+
+    let finalBags =
+        netWeight / 75;
+
+
+    /* Total Amount */
+
+    let total =
+        finalBags * rate;
+
+
+    return {
+
+        weight:
+            weight,
+
+        bags:
+            bags,
+
+        weighbridgeDeduction:
+            weighbridgeDeduction,
+
+        netWeight:
+            netWeight,
+
+        finalBags:
+            finalBags,
+
+        rate:
+            rate,
+
+        total:
+            total
+
+    };
+
+}
+
+
+/* =========================================================
+   GET FARMER NAME
+========================================================= */
+
+function getFarmerName(d) {
+
+    return String(
+        d.farmer ??
+        d.farmerName ??
+        "Unknown Farmer"
+    ).trim();
+
+}
+
+
+/* =========================================================
+   SEARCH MATCH
+========================================================= */
+
+function matchesSearch(
+    farmerName,
+    search
+) {
+
+    return farmerName
+        .toLowerCase()
+        .includes(search);
+
+}
+
+
+/* =========================================================
+   LOAD SUMMARY
+========================================================= */
+
+function loadSummary(
+    search = ""
+) {
+
+    let data =
+        getProcurementData();
+
+
+    let farmers =
+        JSON.parse(
+            localStorage.getItem("farmers")
+        ) || [];
+
+
+    let farmerSet =
+        new Set();
+
+
+    data.forEach(function(d) {
+
+        farmerSet.add(
+            getFarmerName(d)
+        );
+
+    });
+
+
+    let visibleData =
+        data.filter(function(d) {
+
+            return matchesSearch(
+                getFarmerName(d),
+                search
+            );
+
+        });
+
+
+    let visibleFarmers;
+
+
+    if (search === "") {
+
+        visibleFarmers =
+            farmers.length > 0
+                ? farmers
+                : Array.from(farmerSet);
+
+    } else {
+
+        visibleFarmers =
+            Array.from(farmerSet)
+                .filter(function(farmer) {
+
+                    return matchesSearch(
+                        farmer,
+                        search
+                    );
+
+                });
+
+    }
+
+
+    document.getElementById(
+        "totalFarmers"
+    ).innerText =
+        visibleFarmers.length;
+
+
+    document.getElementById(
+        "totalRecords"
+    ).innerText =
+        visibleData.length;
+
+
+    let totalGrossWeight = 0;
+
+    let totalWeighbridgeDeduction = 0;
+
+    let totalNetWeight = 0;
+
+    let totalFinalBags = 0;
+
+    let totalAmount = 0;
+
+
+    visibleData.forEach(function(d) {
+
+        let r =
+            calculateRecord(d);
+
+
+        totalGrossWeight +=
+            r.weight;
+
+
+        totalWeighbridgeDeduction +=
+            r.weighbridgeDeduction;
+
+
+        totalNetWeight +=
+            r.netWeight;
+
+
+        totalFinalBags +=
+            r.finalBags;
+
+
+        totalAmount +=
+            r.total;
+
+    });
+
+
+    document.getElementById(
+        "totalGrossWeight"
+    ).innerText =
+        totalGrossWeight.toFixed(2);
+
+
+    document.getElementById(
+        "totalWeighbridgeDeduction"
+    ).innerText =
+        totalWeighbridgeDeduction.toFixed(2);
+
+
+    document.getElementById(
+        "totalNetWeight"
+    ).innerText =
+        totalNetWeight.toFixed(2);
+
+
+    document.getElementById(
+        "totalFinalBags"
+    ).innerText =
+        totalFinalBags.toFixed(2);
+
+
+    document.getElementById(
+        "totalAmount"
+    ).innerText =
+        totalAmount.toFixed(2);
+
+}
+
+
+/* =========================================================
+   FARMER-WISE SUMMARY
+========================================================= */
+
+function loadFarmerSummary(
+    search = ""
+) {
+
+    let data =
+        getProcurementData();
+
+
+    let farmerMap = {};
+
+
+    data.forEach(function(d) {
+
+        let farmerName =
+            getFarmerName(d);
+
+
+        if (
+            !matchesSearch(
+                farmerName,
+                search
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        let r =
+            calculateRecord(d);
+
+
+        if (!farmerMap[farmerName]) {
+
+            farmerMap[farmerName] = {
+
+                records: 0,
+
+                grossWeight: 0,
+
+                netWeight: 0,
+
+                finalBags: 0,
+
+                total: 0
+
+            };
+
+        }
+
+
+        farmerMap[farmerName].records++;
+
+        farmerMap[farmerName].grossWeight +=
+            r.weight;
+
+        farmerMap[farmerName].netWeight +=
+            r.netWeight;
+
+        farmerMap[farmerName].finalBags +=
+            r.finalBags;
+
+        farmerMap[farmerName].total +=
+            r.total;
+
+    });
+
+
+    let tableBody =
+        document.getElementById(
+            "farmerSummaryBody"
+        );
+
+
+    tableBody.innerHTML = "";
+
+
+    let farmers =
+        Object.keys(farmerMap);
+
+
+    if (farmers.length === 0) {
+
+        let row =
+            tableBody.insertRow();
+
+
+        let cell =
+            row.insertCell(0);
+
+
+        cell.colSpan = 6;
+
+        cell.className =
+            "empty";
+
+
+        cell.innerText =
+            search
+                ? "No farmer found."
+                : "No procurement data available.";
+
+
+        return;
+
+    }
+
+
+    farmers.forEach(function(farmer) {
+
+        let item =
+            farmerMap[farmer];
+
+
+        let row =
+            tableBody.insertRow();
+
+
+        row.insertCell(0).innerText =
+            farmer;
+
+
+        row.insertCell(1).innerText =
+            item.records;
+
+
+        row.insertCell(2).innerText =
+            item.grossWeight.toFixed(2) +
+            " kg";
+
+
+        row.insertCell(3).innerText =
+            item.netWeight.toFixed(2) +
+            " kg";
+
+
+        row.insertCell(4).innerText =
+            item.finalBags.toFixed(2);
+
+
+        row.insertCell(5).innerText =
+            "₹" +
+            item.total.toFixed(2);
+
+    });
+
+}
+
+
+/* =========================================================
+   DETAILED REPORT
+========================================================= */
+
+function loadDetailedReport(
+    search = ""
+) {
+
+    let data =
+        getProcurementData();
+
+
+    let tableBody =
+        document.getElementById(
+            "reportBody"
+        );
+
+
+    tableBody.innerHTML = "";
+
+
+    let visibleData =
+        data.filter(function(d) {
+
+            return matchesSearch(
+                getFarmerName(d),
+                search
+            );
+
+        });
+
+
+    if (visibleData.length === 0) {
+
+        let row =
+            tableBody.insertRow();
+
+
+        let cell =
+            row.insertCell(0);
+
+
+        cell.colSpan = 8;
+
+        cell.className =
+            "empty";
+
+
+        cell.innerText =
+            search
+                ? "No procurement records found."
+                : "No procurement records available.";
+
+
+        return;
+
+    }
+
+
+    visibleData.forEach(function(d) {
+
+        let r =
+            calculateRecord(d);
+
+
+        let farmerName =
+            getFarmerName(d);
+
+
+        let row =
+            tableBody.insertRow();
+
+
+        row.insertCell(0).innerText =
+            farmerName;
+
+
+        row.insertCell(1).innerText =
+            r.weight.toFixed(2) +
+            " kg";
+
+
+        row.insertCell(2).innerText =
+            r.weighbridgeDeduction.toFixed(2) +
+            " kg";
+
+
+        row.insertCell(3).innerText =
+            r.bags.toFixed(2) +
+            " kg";
+
+
+        row.insertCell(4).innerText =
+            r.netWeight.toFixed(2) +
+            " kg";
+
+
+        row.insertCell(5).innerText =
+            r.finalBags.toFixed(2);
+
+
+        row.insertCell(6).innerText =
+            "₹" +
+            r.rate.toFixed(2);
+
+
+        row.insertCell(7).innerText =
+            "₹" +
+            r.total.toFixed(2);
+
+    });
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function searchReport() {
+
+    let search =
+        document.getElementById(
+            "searchBox"
+        ).value
+        .trim()
+        .toLowerCase();
+
+
+    loadSummary(search);
+
+    loadFarmerSummary(search);
+
+    loadDetailedReport(search);
+
+}
+
+
+/* =========================================================
+   PAGE LOAD
+========================================================= */
+
+window.onload = function() {
+
+    loadSummary();
+
+    loadFarmerSummary();
+
+    loadDetailedReport();
+
+};
+
+</script>
+
+
+</body>
+
+</html>

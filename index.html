@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Paddy Procurement Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #f4f7fb;
+    color: #1f2937;
+}
+
+
+/* NAVBAR */
+
+.navbar {
+    background: #0b4f8a;
+    color: white;
+    padding: 18px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.navbar h2 {
+    font-size: 23px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin-left: 25px;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+
+/* MAIN */
+
+.container {
+    width: 92%;
+    max-width: 1250px;
+    margin: 35px auto;
+}
+
+
+/* WELCOME */
+
+.welcome {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+}
+
+.welcome h1 {
+    color: #0b4f8a;
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.welcome p {
+    color: #6b7280;
+    font-size: 16px;
+}
+
+
+/* SUMMARY CARDS */
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.summary-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border-left: 5px solid #0b4f8a;
+}
+
+.summary-card h3 {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.summary-card p {
+    color: #0b4f8a;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+
+/* QUICK ACTIONS */
+
+.section-title {
+    color: #0b4f8a;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.action-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.action-card h3 {
+    color: #0b4f8a;
+    margin-bottom: 10px;
+}
+
+.action-card p {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+.action-btn {
+    display: inline-block;
+    background: #0b4f8a;
+    color: white;
+    text-decoration: none;
+    padding: 11px 20px;
+    border-radius: 7px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.action-btn:hover {
+    background: #083b68;
+}
+
+
+/* LOWER GRID */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+
+/* CHART */
+
+.chart-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.chart-card h2 {
+    color: #0b4f8a;
+    margin-bottom: 20px;
+}
+
+.chart-container {
+    position: relative;
+    height: 350px;
+}
+
+
+/* RECENT RECORDS */
+
+.recent-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    overflow-x: auto;
+}
+
+.recent-card h2 {
+    color: #0b4f8a;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: #0b4f8a;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+    white-space: nowrap;
+}
+
+tr:hover {
+    background: #f8fafc;
+}
+
+.empty {
+    text-align: center;
+    color: #6b7280;
+    padding: 20px;
+}
+
+
+/* FOOTER */
+
+footer {
+    background: #0b4f8a;
+    color: white;
+    text-align: center;
+    padding: 25px;
+    margin-top: 50px;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+
+    .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .navbar {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .navbar a {
+        margin-left: 10px;
+    }
+
+    .container {
+        width: 95%;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .actions {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome h1 {
+        font-size: 26px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVIGATION -->
+
+<div class="navbar">
+
+    <h2>
+        🌾 Paddy Procurement System
+    </h2>
+
+    <div>
+
+        <a href="index.html">
+            Dashboard
+        </a>
+
+        <a href="farmers.html">
+            Farmers
+        </a>
+
+        <a href="procurement.html">
+            Procurement
+        </a>
+
+        <a href="reports.html">
+            Reports
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h1>
+            Paddy Procurement Dashboard
+        </h1>
+
+        <p>
+            Monitor farmers, procurement transactions,
+            paddy quantity and payment information.
+        </p>
+
+    </div>
+
+
+    <!-- SUMMARY -->
+
+    <div class="summary-grid">
+
+
+        <div class="summary-card">
+
+            <h3>
+                Total Farmers
+            </h3>
+
+            <p id="totalFarmers">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>
+                Procurement Records
+            </h3>
+
+            <p id="totalRecords">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>
+                Total Paddy Weight
+            </h3>
+
+            <p>
+
+                <span id="totalWeight">
+                    0
+                </span>
+
+                kg
+
+            </p>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <h3>
+                Total Amount
+            </h3>
+
+            <p>
+
+                ₹<span id="totalAmount">
+                    0
+                </span>
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- QUICK ACTIONS -->
+
+    <h2 class="section-title">
+        Quick Actions
+    </h2>
+
+
+    <div class="actions">
+
+
+        <div class="action-card">
+
+            <h3>
+                👨‍🌾 Farmer Management
+            </h3>
+
+            <p>
+                Register and manage farmers.
+            </p>
+
+            <a
+                href="farmers.html"
+                class="action-btn">
+
+                Manage Farmers
+
+            </a>
+
+        </div>
+
+
+        <div class="action-card">
+
+            <h3>
+                🌾 New Procurement
+            </h3>
+
+            <p>
+                Record a new paddy procurement transaction.
+            </p>
+
+            <a
+                href="procurement.html"
+                class="action-btn">
+
+                Add Procurement
+
+            </a>
+
+        </div>
+
+
+        <div class="action-card">
+
+            <h3>
+                📊 Reports
+            </h3>
+
+            <p>
+                View procurement records and analytics.
+            </p>
+
+            <a
+                href="reports.html"
+                class="action-btn">
+
+                View Reports
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- CHART + RECENT RECORDS -->
+
+    <div class="dashboard-grid">
+
+
+        <!-- CHART -->
+
+        <div class="chart-card">
+
+            <h2>
+                Farmer-wise Procurement
+            </h2>
+
+            <div class="chart-container">
+
+                <canvas id="farmerChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <!-- RECENT RECORDS -->
+
+        <div class="recent-card">
+
+            <h2>
+                Recent Procurement
+            </h2>
+
+
+            <table id="recentTable">
+
+                <tr>
+
+                    <th>
+                        Farmer
+                    </th>
+
+                    <th>
+                        Weight
+                    </th>
+
+                    <th>
+                        Amount
+                    </th>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    Paddy Procurement Management System © 2026
+
+</footer>
+
+
+<script>
+
+
+let dashboardChart = null;
+
+
+/*
+========================================================
+GET PROCUREMENT DATA
+========================================================
+*/
+
+function getProcurementData() {
+
+    return JSON.parse(
+        localStorage.getItem("procurement")
+    ) || [];
+
+}
+
+
+/*
+========================================================
+GET FARMER NAME
+========================================================
+*/
+
+function getFarmerName(d) {
+
+    return String(
+        d.farmer ??
+        d.farmerName ??
+        "Unknown Farmer"
+    ).trim();
+
+}
+
+
+/*
+========================================================
+GET RATE
+
+Supports the current procurement structure
+and alternate field names.
+========================================================
+*/
+
+function getRate(d) {
+
+    return Number(
+        d.rate ??
+        d.paddyRate ??
+        d.ratePerBag ??
+        d.paddy_rate ??
+        d.ratePer75Kg
+    ) || 0;
+
+}
+
+
+/*
+========================================================
+CALCULATE PROCUREMENT
+
+BUSINESS RULE:
+
+Gross Weight
+      ↓
+5 kg deduction per tonne
+      ↓
+Bag Deduction
+      ↓
+Net Weight
+      ↓
+Net Weight / 75
+      ↓
+Final Bags
+      ↓
+Final Bags × Paddy Rate
+      ↓
+Total Amount
+
+5 kg = Weighbridge Deduction per tonne
+75 kg = 1 Final Bag
+========================================================
+*/
+
+function calculateRecord(d) {
+
+
+    /*
+    Gross Weight
+    */
+
+    let weight =
+        Number(
+            d.weight ??
+            d.grossWeight
+        ) || 0;
+
+
+    /*
+    Bag Deduction
+    */
+
+    let bags =
+        Number(
+            d.bags ??
+            d.numberOfBags
+        ) || 0;
+
+
+    /*
+    Paddy Rate
+    */
+
+    let rate =
+        getRate(d);
+
+
+    /*
+    Weighbridge Deduction
+
+    5 kg per tonne
+    */
+
+    let weighbridgeDeduction =
+        (weight / 1000) * 5;
+
+
+    /*
+    Net Weight
+    */
+
+    let netWeight =
+        weight -
+        weighbridgeDeduction -
+        bags;
+
+
+    /*
+    Final Bags
+
+    75 kg = 1 Final Bag
+    */
+
+    let finalBags =
+        netWeight / 75;
+
+
+    /*
+    Total Amount
+    */
+
+    let total =
+        finalBags * rate;
+
+
+    return {
+
+        weight:
+            weight,
+
+        bags:
+            bags,
+
+        weighbridgeDeduction:
+            weighbridgeDeduction,
+
+        netWeight:
+            netWeight,
+
+        finalBags:
+            finalBags,
+
+        rate:
+            rate,
+
+        total:
+            total
+
+    };
+
+}
+
+
+/*
+========================================================
+LOAD DASHBOARD
+========================================================
+*/
+
+function loadDashboard() {
+
+
+    /*
+    FARMERS
+    */
+
+    let farmers =
+        JSON.parse(
+            localStorage.getItem("farmers")
+        ) || [];
+
+
+    document.getElementById(
+        "totalFarmers"
+    ).innerText =
+        farmers.length;
+
+
+    /*
+    PROCUREMENT
+    */
+
+    let data =
+        getProcurementData();
+
+
+    document.getElementById(
+        "totalRecords"
+    ).innerText =
+        data.length;
+
+
+    let totalWeight = 0;
+
+    let totalAmount = 0;
+
+
+    /*
+    Calculate dashboard totals
+    */
+
+    data.forEach(function(d) {
+
+
+        let result =
+            calculateRecord(d);
+
+
+        totalWeight +=
+            result.weight;
+
+
+        totalAmount +=
+            result.total;
+
+    });
+
+
+    /*
+    Display totals
+    */
+
+    document.getElementById(
+        "totalWeight"
+    ).innerText =
+        totalWeight.toFixed(2);
+
+
+    document.getElementById(
+        "totalAmount"
+    ).innerText =
+        totalAmount.toFixed(2);
+
+
+    /*
+    Load other dashboard sections
+    */
+
+    loadRecentRecords(data);
+
+    drawDashboardChart(data);
+
+}
+
+
+/*
+========================================================
+RECENT RECORDS
+========================================================
+*/
+
+function loadRecentRecords(data) {
+
+
+    let table =
+        document.getElementById(
+            "recentTable"
+        );
+
+
+    /*
+    Remove old rows
+    */
+
+    while (table.rows.length > 1) {
+
+        table.deleteRow(1);
+
+    }
+
+
+    /*
+    No records
+    */
+
+    if (data.length === 0) {
+
+
+        let row =
+            table.insertRow();
+
+
+        let cell =
+            row.insertCell(0);
+
+
+        cell.colSpan = 3;
+
+        cell.className =
+            "empty";
+
+
+        cell.innerHTML =
+            "No procurement records available.";
+
+
+        return;
+
+    }
+
+
+    /*
+    Show latest 5 records
+    */
+
+    let recent =
+        data.slice(-5).reverse();
+
+
+    recent.forEach(function(d) {
+
+
+        let result =
+            calculateRecord(d);
+
+
+        let row =
+            table.insertRow();
+
+
+        /*
+        Farmer
+        */
+
+        row.insertCell(0).innerText =
+            getFarmerName(d);
+
+
+        /*
+        Weight
+        */
+
+        row.insertCell(1).innerText =
+            result.weight.toFixed(2) +
+            " kg";
+
+
+        /*
+        Amount
+        */
+
+        row.insertCell(2).innerText =
+            "₹" +
+            result.total.toFixed(2);
+
+    });
+
+}
+
+
+/*
+========================================================
+DASHBOARD CHART
+========================================================
+*/
+
+function drawDashboardChart(data) {
+
+
+    let farmerMap = {};
+
+
+    /*
+    Group total amount by farmer
+    */
+
+    data.forEach(function(d) {
+
+
+        let farmer =
+            getFarmerName(d);
+
+
+        let result =
+            calculateRecord(d);
+
+
+        if (farmerMap[farmer]) {
+
+            farmerMap[farmer] +=
+                result.total;
+
+        } else {
+
+            farmerMap[farmer] =
+                result.total;
+
+        }
+
+    });
+
+
+    let farmers =
+        Object.keys(farmerMap);
+
+
+    let amounts =
+        Object.values(farmerMap);
+
+
+    let canvas =
+        document.getElementById(
+            "farmerChart"
+        );
+
+
+    let ctx =
+        canvas.getContext("2d");
+
+
+    /*
+    Destroy old chart
+    */
+
+    if (dashboardChart) {
+
+        dashboardChart.destroy();
+
+    }
+
+
+    /*
+    Don't create empty chart
+    */
+
+    if (farmers.length === 0) {
+
+        return;
+
+    }
+
+
+    /*
+    Create chart
+    */
+
+    dashboardChart =
+        new Chart(ctx, {
+
+            type: "bar",
+
+            data: {
+
+                labels:
+                    farmers,
+
+                datasets: [{
+
+                    label:
+                        "Total Amount",
+
+                    data:
+                        amounts
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        ticks: {
+
+                            callback:
+                                function(value) {
+
+                                    return "₹" +
+                                        value;
+
+                                }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+}
+
+
+/*
+========================================================
+PAGE LOAD
+========================================================
+*/
+
+window.onload = function() {
+
+    loadDashboard();
+
+};
+
+</script>
+
+
+</body>
+
+</html>
