@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Farmer Management | Paddy Procurement System</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            background: #0b4f8a;
+            color: white;
+
+            padding: 18px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+
+        .navbar h2 {
+            font-size: 23px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+
+            margin-left: 25px;
+
+            font-weight: bold;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+
+            margin: 35px auto;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            color: #0b4f8a;
+            font-size: 32px;
+        }
+
+        .page-title p {
+            color: #6b7280;
+            margin-top: 7px;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-box {
+            background: white;
+
+            padding: 28px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+
+            margin-bottom: 30px;
+        }
+
+        .form-box h2 {
+            color: #0b4f8a;
+
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+        .input-group label {
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #0b4f8a;
+
+            box-shadow: 0 0 0 2px rgba(11,79,138,0.1);
+        }
+
+        .form-buttons {
+            display: flex;
+
+            gap: 10px;
+        }
+
+        .add-btn {
+            background: #0b4f8a;
+
+            color: white;
+
+            border: none;
+
+            padding: 13px 24px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+            font-weight: bold;
+        }
+
+        .add-btn:hover {
+            background: #083b68;
+        }
+
+        .cancel-btn {
+            background: #6b7280;
+
+            color: white;
+
+            border: none;
+
+            padding: 13px 24px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            display: none;
+        }
+
+        .cancel-btn:hover {
+            background: #4b5563;
+        }
+
+        /* ================= SEARCH ================= */
+
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #0b4f8a;
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-card {
+            background: white;
+
+            padding: 28px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+
+            overflow-x: auto;
+        }
+
+        .table-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 18px;
+        }
+
+        .table-header h2 {
+            color: #0b4f8a;
+        }
+
+        .farmer-count {
+            background: #e8f1fa;
+
+            color: #0b4f8a;
+
+            padding: 7px 14px;
+
+            border-radius: 20px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 700px;
+        }
+
+        th {
+            background: #0b4f8a;
+
+            color: white;
+
+            padding: 14px;
+
+            text-align: left;
+        }
+
+        td {
+            padding: 14px;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        /* ================= ACTION BUTTONS ================= */
+
+        .action-buttons {
+            display: flex;
+
+            gap: 8px;
+        }
+
+        .edit-btn {
+            background: #f59e0b;
+
+            color: white;
+
+            border: none;
+
+            padding: 8px 16px;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        .edit-btn:hover {
+            background: #d97706;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+
+            color: white;
+
+            border: none;
+
+            padding: 8px 16px;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        .delete-btn:hover {
+            background: #b02a37;
+        }
+
+        /* ================= EMPTY MESSAGE ================= */
+
+        .empty-message {
+            text-align: center;
+
+            color: #6b7280;
+
+            padding: 30px;
+
+            font-size: 15px;
+        }
+
+        /* ================= LOADING ================= */
+
+        .loading-message {
+            text-align: center;
+
+            padding: 30px;
+
+            color: #0b4f8a;
+
+            font-weight: bold;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            text-align: center;
+
+            padding: 25px;
+
+            margin-top: 50px;
+
+            background: #0b4f8a;
+
+            color: white;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 850px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 15px 20px;
+
+                flex-direction: column;
+
+                gap: 12px;
+            }
+
+            .navbar h2 {
+                font-size: 19px;
+
+                text-align: center;
+            }
+
+            .navbar a {
+                margin-left: 8px;
+
+                font-size: 14px;
+            }
+
+            .container {
+                width: 95%;
+
+                margin-top: 25px;
+            }
+
+            .page-title h1 {
+                font-size: 26px;
+            }
+
+            .form-buttons {
+                flex-direction: column;
+            }
+
+            .add-btn,
+            .cancel-btn {
+                width: 100%;
+            }
+
+            .table-header {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 10px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .edit-btn,
+            .delete-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVIGATION ================= -->
+
+<div class="navbar">
+
+    <h2>🌾 Paddy Procurement System</h2>
+
+    <div>
+
+        <a href="index.html">Dashboard</a>
+
+        <a href="farmers.html">Farmers</a>
+
+        <a href="procurement.html">Procurement</a>
+
+    </div>
+
+</div>
+
+
+<!-- ================= MAIN CONTENT ================= -->
+
+<div class="container">
+
+
+    <!-- PAGE TITLE -->
+
+    <div class="page-title">
+
+        <h1>Farmer Management</h1>
+
+        <p>
+            Register and manage farmers involved in paddy procurement.
+        </p>
+
+    </div>
+
+
+    <!-- ================= ADD / EDIT FARMER ================= -->
+
+    <div class="form-box">
+
+        <h2 id="formTitle">
+            Add New Farmer
+        </h2>
+
+
+        <div class="form-grid">
+
+
+            <!-- Farmer Name -->
+
+            <div class="input-group">
+
+                <label for="farmerName">
+                    Farmer Name
+                </label>
+
+                <input
+                    type="text"
+                    id="farmerName"
+                    placeholder="Enter farmer name"
+                    maxlength="100"
+                    autocomplete="off">
+
+            </div>
+
+
+            <!-- Phone -->
+
+            <div class="input-group">
+
+                <label for="farmerPhone">
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="farmerPhone"
+                    placeholder="Enter phone number"
+                    maxlength="15"
+                    autocomplete="off">
+
+            </div>
+
+
+            <!-- Address -->
+
+            <div class="input-group">
+
+                <label for="farmerAddress">
+                    Address
+                </label>
+
+                <input
+                    type="text"
+                    id="farmerAddress"
+                    placeholder="Enter address"
+                    maxlength="255"
+                    autocomplete="off">
+
+            </div>
+
+
+        </div>
+
+
+        <div class="form-buttons">
+
+            <button
+                class="add-btn"
+                id="submitBtn"
+                onclick="saveFarmer()">
+
+                + Add Farmer
+
+            </button>
+
+
+            <button
+                class="cancel-btn"
+                id="cancelBtn"
+                onclick="cancelEdit()">
+
+                Cancel
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= REGISTERED FARMERS ================= -->
+
+    <div class="table-card">
+
+
+        <div class="table-header">
+
+            <h2>
+                Registered Farmers
+            </h2>
+
+            <span
+                class="farmer-count"
+                id="farmerCount">
+
+                0 Farmers
+
+            </span>
+
+        </div>
+
+
+        <!-- Search -->
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search farmer by name, phone or address..."
+                autocomplete="off">
+
+        </div>
+
+
+        <table id="farmerTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>#</th>
+
+                    <th>Farmer Name</th>
+
+                    <th>Phone</th>
+
+                    <th>Address</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="farmerTableBody">
+
+            </tbody>
+
+        </table>
+
+
+        <div
+            id="loadingMessage"
+            class="loading-message">
+
+            Loading farmers from Salesforce...
+
+        </div>
+
+
+        <div
+            id="emptyMessage"
+            class="empty-message"
+            style="display:none;">
+
+            No farmers registered yet.
+
+            <br>
+
+            Add a farmer using the form above.
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    Paddy Procurement Management System © 2026
+
+</footer>
+
+
+<script>
+
+
+/* =========================================================
+   BACKEND URL
+========================================================= */
+
+const API_URL =
+    "https://paddy-procurement-backend.onrender.com";
+
+
+/* =========================================================
+   GLOBAL DATA
+========================================================= */
+
+let farmers = [];
+
+let editId = null;
+
+
+/* =========================================================
+   GET FARMERS FROM SALESFORCE
+========================================================= */
+
+async function getFarmers() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/farmers`
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to retrieve farmers."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        farmers = data;
+
+
+        return farmers;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Error loading farmers:",
+            error
+        );
+
+
+        document
+            .getElementById("loadingMessage")
+            .style.display =
+            "none";
+
+
+        alert(
+            "Unable to load farmers from Salesforce.\n\n" +
+            "Please make sure:\n" +
+            "1. Node.js server is running.\n" +
+            "2. Salesforce login is completed."
+        );
+
+
+        return [];
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD FARMERS
+========================================================= */
+
+async function loadFarmers() {
+
+
+    const tableBody =
+        document.getElementById(
+            "farmerTableBody"
+        );
+
+
+    const emptyMessage =
+        document.getElementById(
+            "emptyMessage"
+        );
+
+
+    const loadingMessage =
+        document.getElementById(
+            "loadingMessage"
+        );
+
+
+    const farmerCount =
+        document.getElementById(
+            "farmerCount"
+        );
+
+
+    loadingMessage.style.display =
+        "block";
+
+
+    tableBody.innerHTML =
+        "";
+
+
+    const data =
+        await getFarmers();
+
+
+    loadingMessage.style.display =
+        "none";
+
+
+    farmerCount.textContent =
+        data.length +
+        (
+            data.length === 1
+                ? " Farmer"
+                : " Farmers"
+        );
+
+
+    if (data.length === 0) {
+
+        emptyMessage.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    emptyMessage.style.display =
+        "none";
+
+
+    displayFarmers(data);
+
+}
+
+
+/* =========================================================
+   DISPLAY FARMERS
+========================================================= */
+
+function displayFarmers(data) {
+
+
+    const tableBody =
+        document.getElementById(
+            "farmerTableBody"
+        );
+
+
+    tableBody.innerHTML =
+        "";
+
+
+    data.forEach(
+        function(farmer, index) {
+
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            /* Number */
+
+            const numberCell =
+                document.createElement(
+                    "td"
+                );
+
+
+            numberCell.textContent =
+                index + 1;
+
+
+            /* Farmer Name */
+
+            const nameCell =
+                document.createElement(
+                    "td"
+                );
+
+
+            nameCell.textContent =
+                farmer.Name || "-";
+
+
+            /* Phone */
+
+            const phoneCell =
+                document.createElement(
+                    "td"
+                );
+
+
+            phoneCell.textContent =
+                farmer.Phone__c || "-";
+
+
+            /* Address */
+
+            const addressCell =
+                document.createElement(
+                    "td"
+                );
+
+
+            addressCell.textContent =
+                farmer.Address__c || "-";
+
+
+            /* Action */
+
+            const actionCell =
+                document.createElement(
+                    "td"
+                );
+
+
+            const actionButtons =
+                document.createElement(
+                    "div"
+                );
+
+
+            actionButtons.className =
+                "action-buttons";
+
+
+            /* Edit Button */
+
+            const editButton =
+                document.createElement(
+                    "button"
+                );
+
+
+            editButton.className =
+                "edit-btn";
+
+
+            editButton.textContent =
+                "Edit";
+
+
+            editButton.onclick =
+                function() {
+
+                    editFarmer(
+                        farmer.Id
+                    );
+
+                };
+
+
+            /* Delete Button */
+
+            const deleteButton =
+                document.createElement(
+                    "button"
+                );
+
+
+            deleteButton.className =
+                "delete-btn";
+
+
+            deleteButton.textContent =
+                "Delete";
+
+
+            deleteButton.onclick =
+                function() {
+
+                    deleteFarmer(
+                        farmer.Id
+                    );
+
+                };
+
+
+            actionButtons.appendChild(
+                editButton
+            );
+
+
+            actionButtons.appendChild(
+                deleteButton
+            );
+
+
+            actionCell.appendChild(
+                actionButtons
+            );
+
+
+            row.appendChild(
+                numberCell
+            );
+
+
+            row.appendChild(
+                nameCell
+            );
+
+
+            row.appendChild(
+                phoneCell
+            );
+
+
+            row.appendChild(
+                addressCell
+            );
+
+
+            row.appendChild(
+                actionCell
+            );
+
+
+            tableBody.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SAVE / ADD FARMER
+========================================================= */
+
+async function saveFarmer() {
+
+
+    const nameInput =
+        document.getElementById(
+            "farmerName"
+        );
+
+
+    const phoneInput =
+        document.getElementById(
+            "farmerPhone"
+        );
+
+
+    const addressInput =
+        document.getElementById(
+            "farmerAddress"
+        );
+
+
+    const name =
+        nameInput.value.trim();
+
+
+    const phone =
+        phoneInput.value.trim();
+
+
+    const address =
+        addressInput.value.trim();
+
+
+    /* =====================================================
+       VALIDATE NAME
+    ===================================================== */
+
+    if (name === "") {
+
+        alert(
+            "Please enter farmer name."
+        );
+
+        nameInput.focus();
+
+        return;
+
+    }
+
+
+    if (name.length < 2) {
+
+        alert(
+            "Farmer name must contain at least 2 characters."
+        );
+
+        nameInput.focus();
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       VALIDATE PHONE
+    ===================================================== */
+
+    if (phone === "") {
+
+        alert(
+            "Please enter phone number."
+        );
+
+        phoneInput.focus();
+
+        return;
+
+    }
+
+
+    if (!/^[0-9]{10}$/.test(phone)) {
+
+        alert(
+            "Please enter a valid 10-digit phone number."
+        );
+
+        phoneInput.focus();
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       VALIDATE ADDRESS
+    ===================================================== */
+
+    if (address === "") {
+
+        alert(
+            "Please enter farmer address."
+        );
+
+        addressInput.focus();
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       DUPLICATE NAME CHECK
+    ===================================================== */
+
+    const duplicate =
+        farmers.some(
+            function(farmer) {
+
+                return (
+                    farmer.Name &&
+                    farmer.Name.toLowerCase() ===
+                    name.toLowerCase() &&
+                    farmer.Id !== editId
+                );
+
+            }
+        );
+
+
+    if (duplicate) {
+
+        alert(
+            "Another farmer with this name already exists."
+        );
+
+        nameInput.focus();
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       SHOW LOADING
+    ===================================================== */
+
+    const submitBtn =
+        document.getElementById(
+            "submitBtn"
+        );
+
+
+    submitBtn.disabled =
+        true;
+
+
+    submitBtn.textContent =
+        editId
+            ? "Updating..."
+            : "Adding...";
+
+
+    try {
+
+
+        /* =================================================
+           UPDATE FARMER
+        ================================================= */
+
+        if (editId) {
+
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/farmers/${editId}`,
+                    {
+
+                        method: "PUT",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            name: name,
+
+                            phone: phone,
+
+                            address: address
+
+                        })
+
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    result.error ||
+                    "Failed to update farmer."
+                );
+
+            }
+
+
+            alert(
+                "Farmer updated successfully!"
+            );
+
+        }
+
+
+        /* =================================================
+           ADD FARMER
+        ================================================= */
+
+        else {
+
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/farmers`,
+                    {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            name: name,
+
+                            phone: phone,
+
+                            address: address
+
+                        })
+
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    result.error ||
+                    "Failed to add farmer."
+                );
+
+            }
+
+
+            alert(
+                "Farmer added successfully!"
+            );
+
+        }
+
+
+        /* Reload Salesforce data */
+
+        cancelEdit();
+
+        await loadFarmers();
+
+
+        nameInput.focus();
+
+
+    }
+
+    catch (error) {
+
+
+        console.error(
+            "Save farmer error:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Unable to save farmer."
+        );
+
+    }
+
+
+    finally {
+
+
+        submitBtn.disabled =
+            false;
+
+
+        submitBtn.textContent =
+            editId
+                ? "Update Farmer"
+                : "+ Add Farmer";
+
+    }
+
+}
+
+
+/* =========================================================
+   EDIT FARMER
+========================================================= */
+
+function editFarmer(id) {
+
+
+    const farmer =
+        farmers.find(
+            function(item) {
+
+                return item.Id === id;
+
+            }
+        );
+
+
+    if (!farmer) {
+
+        alert(
+            "Farmer record not found."
+        );
+
+        return;
+
+    }
+
+
+    editId =
+        farmer.Id;
+
+
+    document
+        .getElementById("farmerName")
+        .value =
+        farmer.Name || "";
+
+
+    document
+        .getElementById("farmerPhone")
+        .value =
+        farmer.Phone__c || "";
+
+
+    document
+        .getElementById("farmerAddress")
+        .value =
+        farmer.Address__c || "";
+
+
+    document
+        .getElementById("formTitle")
+        .textContent =
+        "Edit Farmer";
+
+
+    document
+        .getElementById("submitBtn")
+        .textContent =
+        "Update Farmer";
+
+
+    document
+        .getElementById("submitBtn")
+        .style.background =
+        "#f59e0b";
+
+
+    document
+        .getElementById("cancelBtn")
+        .style.display =
+        "block";
+
+
+    document
+        .getElementById("farmerName")
+        .focus();
+
+}
+
+
+/* =========================================================
+   CANCEL EDIT
+========================================================= */
+
+function cancelEdit() {
+
+
+    editId =
+        null;
+
+
+    document
+        .getElementById("farmerName")
+        .value =
+        "";
+
+
+    document
+        .getElementById("farmerPhone")
+        .value =
+        "";
+
+
+    document
+        .getElementById("farmerAddress")
+        .value =
+        "";
+
+
+    document
+        .getElementById("formTitle")
+        .textContent =
+        "Add New Farmer";
+
+
+    document
+        .getElementById("submitBtn")
+        .textContent =
+        "+ Add Farmer";
+
+
+    document
+        .getElementById("submitBtn")
+        .style.background =
+        "#0b4f8a";
+
+
+    document
+        .getElementById("cancelBtn")
+        .style.display =
+        "none";
+
+}
+
+
+/* =========================================================
+   DELETE FARMER
+========================================================= */
+
+async function deleteFarmer(id) {
+
+
+    const farmer =
+        farmers.find(
+            function(item) {
+
+                return item.Id === id;
+
+            }
+        );
+
+
+    if (!farmer) {
+
+        return;
+
+    }
+
+
+    const farmerName =
+        farmer.Name;
+
+
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to delete " +
+            farmerName +
+            "?"
+        );
+
+
+    if (!confirmDelete) {
+
+        return;
+
+    }
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                `${API_URL}/api/farmers/${id}`,
+                {
+
+                    method: "DELETE"
+
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.error ||
+                "Failed to delete farmer."
+            );
+
+        }
+
+
+        if (editId === id) {
+
+            cancelEdit();
+
+        }
+
+
+        alert(
+            "Farmer deleted successfully."
+        );
+
+
+        await loadFarmers();
+
+    }
+
+
+    catch (error) {
+
+
+        console.error(
+            "Delete farmer error:",
+            error
+        );
+
+
+        alert(
+            error.message ||
+            "Unable to delete farmer."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SEARCH FARMERS
+========================================================= */
+
+document
+    .getElementById("searchInput")
+    .addEventListener(
+        "input",
+        function() {
+
+
+            const searchText =
+                this.value
+                    .trim()
+                    .toLowerCase();
+
+
+            if (searchText === "") {
+
+                displayFarmers(
+                    farmers
+                );
+
+                return;
+
+            }
+
+
+            const filtered =
+                farmers.filter(
+                    function(farmer) {
+
+
+                        const name =
+                            (
+                                farmer.Name ||
+                                ""
+                            ).toLowerCase();
+
+
+                        const phone =
+                            (
+                                farmer.Phone__c ||
+                                ""
+                            ).toLowerCase();
+
+
+                        const address =
+                            (
+                                farmer.Address__c ||
+                                ""
+                            ).toLowerCase();
+
+
+                        return (
+                            name.includes(searchText) ||
+                            phone.includes(searchText) ||
+                            address.includes(searchText)
+                        );
+
+                    }
+                );
+
+
+            displayFarmers(
+                filtered
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   ENTER KEY SUPPORT
+========================================================= */
+
+document
+    .getElementById("farmerAddress")
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Enter") {
+
+                saveFarmer();
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   PAGE LOAD
+========================================================= */
+
+window.onload =
+    function() {
+
+        loadFarmers();
+
+    };
+
+
+</script>
+
+
+</body>
+
+</html>

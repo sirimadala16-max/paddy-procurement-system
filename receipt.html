@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Farmer Procurement Receipt</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            margin: 0;
+            padding: 30px;
+            color: #222;
+        }
+
+        .receipt {
+            width: 700px;
+            max-width: 100%;
+            margin: auto;
+            background: white;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+        }
+
+
+        /* ================= HEADER ================= */
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #0b4f8a;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #0b4f8a;
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        .header p {
+            color: #666;
+            margin: 5px 0;
+        }
+
+
+        /* ================= RECEIPT ID ================= */
+
+        .receipt-id {
+            text-align: right;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+
+        /* ================= INFO ================= */
+
+        .info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            padding: 14px;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .info-box span {
+            display: block;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .info-box strong {
+            color: #0b4f8a;
+            font-size: 16px;
+        }
+
+
+        /* ================= TABLE ================= */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th {
+            background: #0b4f8a;
+            color: white;
+            padding: 13px;
+            text-align: left;
+        }
+
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        td:last-child {
+            text-align: right;
+            font-weight: bold;
+        }
+
+
+        /* ================= TOTAL ================= */
+
+        .total {
+            margin-top: 25px;
+            padding: 18px;
+            background: #f1f8ff;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #dbeafe;
+        }
+
+        .total span {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .total strong {
+            font-size: 25px;
+            color: #0b4f8a;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        .receipt-footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 13px;
+        }
+
+
+        /* ================= BUTTONS ================= */
+
+        .buttons {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        button {
+            padding: 11px 22px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .print-btn {
+            background: #0b4f8a;
+        }
+
+        .back-btn {
+            background: #6c757d;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+
+        /* ================= LOADING ================= */
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #0b4f8a;
+            font-size: 18px;
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 30px;
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 650px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .receipt {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 23px;
+            }
+
+            .info {
+                grid-template-columns: 1fr;
+            }
+
+            th,
+            td {
+                padding: 10px;
+                font-size: 13px;
+            }
+
+            .total {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+        }
+
+
+        /* ================= PRINT ================= */
+
+        @media print {
+
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .receipt {
+                width: 100%;
+                max-width: none;
+                box-shadow: none;
+                border-radius: 0;
+                padding: 20px;
+            }
+
+            .buttons {
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="receipt">
+
+
+    <!-- ================= HEADER ================= -->
+
+    <div class="header">
+
+        <h1>
+            🌾 Paddy Procurement System
+        </h1>
+
+        <p>
+            Farmer Procurement Receipt
+        </p>
+
+        <p id="dateTime">
+            Loading...
+        </p>
+
+    </div>
+
+
+    <!-- ================= RECEIPT ID ================= -->
+
+    <div class="receipt-id">
+
+        Receipt No:
+        <strong id="receiptNumber">
+            -
+        </strong>
+
+    </div>
+
+
+    <!-- ================= LOADING ================= -->
+
+    <div id="loadingMessage" class="loading">
+
+        Loading procurement details...
+
+    </div>
+
+
+    <!-- ================= RECEIPT CONTENT ================= -->
+
+    <div id="receiptContent" style="display:none;">
+
+
+        <!-- ================= FARMER INFORMATION ================= -->
+
+        <div class="info">
+
+
+            <div class="info-box">
+
+                <span>
+                    Farmer Name
+                </span>
+
+                <strong id="farmerName">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    Procurement Date
+                </span>
+
+                <strong id="procurementDate">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    Gross Weight
+                </span>
+
+                <strong id="grossWeight">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    Weighbridge Deduction
+                </span>
+
+                <strong id="weighbridgeDeduction">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    Bag Deduction
+                </span>
+
+                <strong id="bagDeduction">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    Net Paddy Weight
+                </span>
+
+                <strong id="netWeightInfo">
+                    -
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ================= CALCULATION TABLE ================= -->
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Particular
+                    </th>
+
+                    <th>
+                        Value
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                <tr>
+
+                    <td>
+                        Gross Weight
+                    </td>
+
+                    <td id="grossWeightTable">
+                        -
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+
+                        Weighbridge Deduction
+
+                        <br>
+
+                        <small>
+                            (5 kg / tonne)
+                        </small>
+
+                    </td>
+
+                    <td id="weighbridgeTable">
+                        -
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Bag Deduction
+                    </td>
+
+                    <td id="bagsTable">
+                        -
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Net Paddy Weight
+                    </td>
+
+                    <td id="netWeight">
+                        -
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+
+                        Final Bags
+
+                        <br>
+
+                        <small>
+                            (75 kg / bag)
+                        </small>
+
+                    </td>
+
+                    <td id="finalBags">
+                        -
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Paddy Rate / Bag
+                    </td>
+
+                    <td id="rate">
+                        -
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+
+        <!-- ================= TOTAL ================= -->
+
+        <div class="total">
+
+            <span>
+                Total Amount
+            </span>
+
+            <strong>
+
+                ₹<span id="totalAmount">
+                    0.00
+                </span>
+
+            </strong>
+
+        </div>
+
+
+        <!-- ================= FOOTER ================= -->
+
+        <div class="receipt-footer">
+
+            <p>
+                Thank you for your business.
+            </p>
+
+            <p>
+                This is a computer-generated receipt.
+            </p>
+
+        </div>
+
+
+        <!-- ================= BUTTONS ================= -->
+
+        <div class="buttons">
+
+            <button
+                class="print-btn"
+                onclick="window.print()">
+
+                🖨 Print Receipt
+
+            </button>
+
+
+            <button
+                class="back-btn"
+                onclick="goBack()">
+
+                ← Back to Procurement
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================= ERROR ================= -->
+
+    <div
+        id="errorMessage"
+        class="error-message"
+        style="display:none;">
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+/* =========================================================
+   BACKEND
+========================================================= */
+
+const API_URL = "https://paddy-procurement-backend.onrender.com";
+
+
+/* =========================================================
+   LOAD RECEIPT FROM SALESFORCE
+========================================================= */
+
+async function loadReceipt() {
+
+    try {
+
+        /* -----------------------------------------
+           GET SELECTED PROCUREMENT ID
+        ----------------------------------------- */
+
+        const procurementId =
+            localStorage.getItem(
+                "selectedProcurementId"
+            );
+
+
+        /* -----------------------------------------
+           CHECK ID
+        ----------------------------------------- */
+
+        if (!procurementId) {
+
+            showError(
+                "No procurement record selected."
+            );
+
+            setTimeout(() => {
+
+                window.location.href =
+                    "procurement.html";
+
+            }, 1500);
+
+            return;
+        }
+
+
+        console.log(
+            "Selected Procurement ID:",
+            procurementId
+        );
+
+
+        /* -----------------------------------------
+           FETCH FROM NODE BACKEND
+        ----------------------------------------- */
+
+        const response =
+            await fetch(
+                `${API_URL}/api/procurements/${procurementId}`
+            );
+
+
+        /* -----------------------------------------
+           CHECK RESPONSE
+        ----------------------------------------- */
+
+        if (!response.ok) {
+
+            let errorData = {};
+
+            try {
+
+                errorData =
+                    await response.json();
+
+            } catch (error) {
+
+                console.log(
+                    "Could not parse error response."
+                );
+
+            }
+
+            throw new Error(
+                errorData.error ||
+                "Unable to fetch procurement record."
+            );
+
+        }
+
+
+        /* -----------------------------------------
+           GET SALESFORCE RECORD
+        ----------------------------------------- */
+
+        const record =
+            await response.json();
+
+
+        console.log(
+            "Procurement received from Salesforce:",
+            record
+        );
+
+
+        /* -----------------------------------------
+           DISPLAY RECEIPT
+        ----------------------------------------- */
+
+        displayReceipt(record);
+
+
+    } catch (error) {
+
+        console.error(
+            "Receipt loading error:",
+            error
+        );
+
+        showError(
+            error.message ||
+            "Failed to load receipt."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DISPLAY RECEIPT
+========================================================= */
+
+function displayReceipt(record) {
+
+
+    /* -----------------------------------------
+       SALESFORCE VALUES
+    ----------------------------------------- */
+
+    const farmerName =
+        record.Farmer__r?.Name ||
+        "Unknown Farmer";
+
+
+    const grossWeight =
+        Number(
+            record.Gross_Weight__c
+        ) || 0;
+
+
+    const bagDeduction =
+        Number(
+            record.Bag_Deduction__c
+        ) || 0;
+
+
+    const weighbridgeDeduction =
+        Number(
+            record.Weighbridge_Deduction__c
+        ) || 0;
+
+
+    const netWeight =
+        Number(
+            record.Net_Weight__c
+        ) || 0;
+
+
+    const finalBags =
+        Number(
+            record.Final_Bags__c
+        ) || 0;
+
+
+    const paddyRate =
+        Number(
+            record.Paddy_Rate__c
+        ) || 0;
+
+
+    const totalAmount =
+        Number(
+            record.Total_Amount__c
+        ) || 0;
+
+
+    /* -----------------------------------------
+       PROCUREMENT DATE
+    ----------------------------------------- */
+
+    let procurementDateText = "-";
+
+    if (record.Procurement_Date__c) {
+
+        const date =
+            new Date(
+                record.Procurement_Date__c +
+                "T00:00:00"
+            );
+
+        procurementDateText =
+            date.toLocaleDateString();
+
+    }
+
+
+    /* -----------------------------------------
+       RECEIPT DATE / TIME
+    ----------------------------------------- */
+
+    const now =
+        new Date();
+
+
+    document.getElementById(
+        "dateTime"
+    ).innerText =
+
+        "Generated: " +
+        now.toLocaleDateString() +
+        " | " +
+        now.toLocaleTimeString();
+
+
+    /* -----------------------------------------
+       RECEIPT NUMBER
+    ----------------------------------------- */
+
+    document.getElementById(
+        "receiptNumber"
+    ).innerText =
+
+        "PR-" +
+        record.Id.slice(-6).toUpperCase();
+
+
+    /* -----------------------------------------
+       FARMER
+    ----------------------------------------- */
+
+    document.getElementById(
+        "farmerName"
+    ).innerText =
+        farmerName;
+
+
+    /* -----------------------------------------
+       PROCUREMENT DATE
+    ----------------------------------------- */
+
+    document.getElementById(
+        "procurementDate"
+    ).innerText =
+        procurementDateText;
+
+
+    /* -----------------------------------------
+       INFO SECTION
+    ----------------------------------------- */
+
+    document.getElementById(
+        "grossWeight"
+    ).innerText =
+
+        grossWeight.toFixed(2) +
+        " kg";
+
+
+    document.getElementById(
+        "weighbridgeDeduction"
+    ).innerText =
+
+        weighbridgeDeduction.toFixed(2) +
+        " kg";
+
+
+    document.getElementById(
+        "bagDeduction"
+    ).innerText =
+
+        bagDeduction.toFixed(2) +
+        " kg";
+
+
+    document.getElementById(
+        "netWeightInfo"
+    ).innerText =
+
+        netWeight.toFixed(2) +
+        " kg";
+
+
+    /* -----------------------------------------
+       CALCULATION TABLE
+    ----------------------------------------- */
+
+    document.getElementById(
+        "grossWeightTable"
+    ).innerText =
+
+        grossWeight.toFixed(2) +
+        " kg";
+
+
+    document.getElementById(
+        "weighbridgeTable"
+    ).innerText =
+
+        weighbridgeDeduction.toFixed(2) +
+        " kg";
+
+
+    document.getElementById(
+        "bagsTable"
+    ).innerText =
+
+        bagDeduction.toFixed(2) +
+        " kg";
+
+
+    document.getElementById(
+        "netWeight"
+    ).innerText =
+
+        netWeight.toFixed(2) +
+        " kg";
+
+
+    document.getElementById(
+        "finalBags"
+    ).innerText =
+
+        finalBags.toFixed(2);
+
+
+    document.getElementById(
+        "rate"
+    ).innerText =
+
+        "₹" +
+        paddyRate.toFixed(2);
+
+
+    /* -----------------------------------------
+       TOTAL AMOUNT
+    ----------------------------------------- */
+
+    document.getElementById(
+        "totalAmount"
+    ).innerText =
+
+        totalAmount.toFixed(2);
+
+
+    /* -----------------------------------------
+       SHOW RECEIPT
+    ----------------------------------------- */
+
+    document.getElementById(
+        "loadingMessage"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "receiptContent"
+    ).style.display = "block";
+
+}
+
+
+/* =========================================================
+   SHOW ERROR
+========================================================= */
+
+function showError(message) {
+
+    document.getElementById(
+        "loadingMessage"
+    ).style.display = "none";
+
+
+    const errorBox =
+        document.getElementById(
+            "errorMessage"
+        );
+
+
+    errorBox.innerText =
+        message;
+
+
+    errorBox.style.display =
+        "block";
+
+}
+
+
+/* =========================================================
+   BACK TO PROCUREMENT
+========================================================= */
+
+function goBack() {
+
+    window.location.href =
+        "procurement.html";
+
+}
+
+
+/* =========================================================
+   PAGE LOAD
+========================================================= */
+
+window.onload =
+    loadReceipt;
+
+
+</script>
+
+
+</body>
+
+</html>
